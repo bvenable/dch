@@ -332,10 +332,10 @@ $(document).ready(function(){
 		row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
   }
 
-  powersection = $('<div id="powers">');
+	powersection = $('<div id="powers">');
 	charsheet.append(powersection);
-  powersection.append('<h3>Powers</h3>');
-  powerlist = $('<ul id="powerlist">');
+	powersection.append('<h3>Powers</h3>');
+	powerlist = $('<ul id="powerlist">');
 	powersection.append(powerlist);
   
 	var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
@@ -381,9 +381,9 @@ $(document).ready(function(){
 		skillrolls = dedupe(skillrolls);
 	}
 
-  for (i = 0; i < skillrolls.length; i++) {
-    var skill = jQuery.extend({}, data.skills[skillrolls[i] - 1]);
-    var islinked = Math.ceil(Math.random() * 10)
+	for (i = 0; i < skillrolls.length; i++) {
+		var skill = jQuery.extend({}, data.skills[skillrolls[i] - 1]);
+		var islinked = Math.ceil(Math.random() * 10)
 		if (islinked <= 3) {
 			skilllink = skill.link
 			var aps = myattrs[skilllink];
@@ -395,12 +395,12 @@ $(document).ready(function(){
 		} else {
 			var aps = Math.ceil(Math.random() * maxskillaps) + 1;
 		};
-    var skillcost = skill.base + data.costbyfactor[skill.factor][aps - 1]
-    var totalcost = totalcost + skillcost;
-    skillslist.append('<li>' + skill.name + ': ' + aps + '</li>');
-    // debug cost
-    // skillslist.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
-  }
+		var skillcost = skill.base + data.costbyfactor[skill.factor][aps - 1]
+		var totalcost = totalcost + skillcost;
+		skillslist.append('<li>' + skill.name + ': ' + aps + '</li>');
+		// debug cost
+		// skillslist.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
+	}
 
 	costsection = $('<div id="costs">');
 	charsheet.append(costsection);
