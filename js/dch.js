@@ -409,14 +409,14 @@ $(document).ready(function(){
 });
 
 function dedupe(a) {
-    var u = {};
-    var a2 = [];
-    for (v in a) {
-        if (!u[a[v]] ) {
-            u[a[v]] = true;
-            a2.push(a[v]);
-        }
-    };
-    return a2;
+	var u = {};
+	var a2 = [];
+	for (v in a) {
+		if (!u[a[v]] ) {
+			u[a[v]] = true;
+			a2.push(a[v]);
+		}
+	};
+	return a2;
 }
 
