@@ -332,9 +332,11 @@ $(document).ready(function(){
     row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
   }
 
-  charsheet.append('<h3>Powers</h3>');
-  powerlist = $('<ul id="powers">');
-	charsheet.append(powerlist);
+  powersection = $('<div id="powers">');
+	charsheet.append(powersection);
+  powersection.append('<h3>Powers</h3>');
+  powerlist = $('<ul id="powerlist">');
+	powersection.append(powerlist);
   
   var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
   var powerrolls = [];
@@ -362,12 +364,14 @@ $(document).ready(function(){
     var totalcost = totalcost + powercost;
     powerlist.append('<li>' + power.name + ': ' + aps + '</li>');
     // debug cost
-    // charsheet.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
+    // powerlist.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
   }
 
-  charsheet.append('<h3>Skills</h3>');
-  skillslist = $('<ul id="skills">');
-	charsheet.append(skillslist);
+	skillsection = $('<div id="skills">');
+	charsheet.append(skillsection);
+  skillsection.append('<h3>Skills</h3>');
+  skillslist = $('<ul id="skillslist">');
+	skillsection.append(skillslist);
   
   var numskills = Math.ceil(Math.random() * maxskills) + 1;
   var skillrolls = [];
@@ -395,10 +399,12 @@ $(document).ready(function(){
     var totalcost = totalcost + skillcost;
     skillslist.append('<li>' + skill.name + ': ' + aps + '</li>');
     // debug cost
-    // charsheet.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
+    // skillslist.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
   }
 
-  charsheet.append('<p>Total Cost: ' + totalcost + '</p>');
+	costsection = $('<div id="costs">');
+	charsheet.append(costsection);
+  costsection.append('<p>Total Cost: ' + totalcost + '</p>');
 
 });
 
