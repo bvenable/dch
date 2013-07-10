@@ -309,27 +309,27 @@ if (typeof params.maxskills == 'undefined') {
 config.push(maxskills);
 
 $(document).ready(function(){
-  var totalcost = 0;
-  var charsheet = $('#charsheet');
+	var totalcost = 0;
+	var charsheet = $('#charsheet');
 
-  charsheet.append('<h3>Attributes</h3>');
-  table = $('<table id="attrs">');
+	charsheet.append('<h3>Attributes</h3>');
+	table = $('<table id="attrs">');
 	charsheet.append(table);
 
 	var myattrs = {};
-  for (i = 0; i < data.attrs.length; i++) {
-    var attr = data.attrs[i];
-    if (i == 0 || i == 3 || i == 6) {
+	for (i = 0; i < data.attrs.length; i++) {
+		var attr = data.attrs[i];
+		if (i == 0 || i == 3 || i == 6) {
 			var row = $('<tr id="' + attr.type + '">');
 			table.append(row);
-    }
+		}
 		console.log(row);
-    var thisattraps = Math.ceil(Math.random() * maxattraps) + 1;
+		var thisattraps = Math.ceil(Math.random() * maxattraps) + 1;
 		var thisattrname = attr.name;
 		myattrs[thisattrname] = thisattraps;
-    var attrcost = data.costbyfactor[attr.factor][thisattraps - 1]
-    var totalcost = totalcost + attrcost;
-    row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
+		var attrcost = data.costbyfactor[attr.factor][thisattraps - 1]
+		var totalcost = totalcost + attrcost;
+		row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
   }
 
   powersection = $('<div id="powers">');
@@ -338,15 +338,15 @@ $(document).ready(function(){
   powerlist = $('<ul id="powerlist">');
 	powersection.append(powerlist);
   
-  var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
-  var powerrolls = [];
-  while (powerrolls.length < numpowers) {
-    powerroll = Math.ceil(Math.random() * data.powers.length);
-    powerrolls.push(powerroll);
-    powerrolls = dedupe(powerrolls);
-  }
+	var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
+	var powerrolls = [];
+	while (powerrolls.length < numpowers) {
+		powerroll = Math.ceil(Math.random() * data.powers.length);
+		powerrolls.push(powerroll);
+		powerrolls = dedupe(powerrolls);
+	}
 
-  for (i = 0; i < powerrolls.length; i++) {
+	for (i = 0; i < powerrolls.length; i++) {
 		var power = jQuery.extend({}, data.powers[powerrolls[i] - 1]);
 		var islinked = Math.ceil(Math.random() * 10)
 		if (islinked == 1) {
@@ -360,26 +360,26 @@ $(document).ready(function(){
 		} else {
 			var aps = Math.ceil(Math.random() * maxpoweraps) + 1;
 		};
-    var powercost = power.base + data.costbyfactor[power.factor][aps - 1]
-    var totalcost = totalcost + powercost;
-    powerlist.append('<li>' + power.name + ': ' + aps + '</li>');
-    // debug cost
-    // powerlist.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
-  }
+		var powercost = power.base + data.costbyfactor[power.factor][aps - 1]
+		var totalcost = totalcost + powercost;
+		powerlist.append('<li>' + power.name + ': ' + aps + '</li>');
+		// debug cost
+		// powerlist.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
+	}
 
 	skillsection = $('<div id="skills">');
 	charsheet.append(skillsection);
-  skillsection.append('<h3>Skills</h3>');
-  skillslist = $('<ul id="skillslist">');
+	skillsection.append('<h3>Skills</h3>');
+	skillslist = $('<ul id="skillslist">');
 	skillsection.append(skillslist);
   
-  var numskills = Math.ceil(Math.random() * maxskills) + 1;
-  var skillrolls = [];
-  while (skillrolls.length < numskills) {
-    skillroll = Math.ceil(Math.random() * data.skills.length);
-    skillrolls.push(skillroll);
-    skillrolls = dedupe(skillrolls);
-  }
+	var numskills = Math.ceil(Math.random() * maxskills) + 1;
+	var skillrolls = [];
+	while (skillrolls.length < numskills) {
+		skillroll = Math.ceil(Math.random() * data.skills.length);
+		skillrolls.push(skillroll);
+		skillrolls = dedupe(skillrolls);
+	}
 
   for (i = 0; i < skillrolls.length; i++) {
     var skill = jQuery.extend({}, data.skills[skillrolls[i] - 1]);
@@ -404,7 +404,7 @@ $(document).ready(function(){
 
 	costsection = $('<div id="costs">');
 	charsheet.append(costsection);
-  costsection.append('<p>Total Cost: ' + totalcost + '</p>');
+	costsection.append('<p>Total Cost: ' + totalcost + '</p>');
 
 });
 
