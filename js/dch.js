@@ -218,15 +218,15 @@ data = {
   {name: 'X-Ray Vision', link: 'Int', base: 15, factor: 3}
   ],
   attrs: [
-  {name: 'Dex', factor: 7},
-  {name: 'Str', factor: 6},
-  {name: 'Bod', factor: 6},
-  {name: 'Int', factor: 7},
-  {name: 'Wil', factor: 6},
-  {name: 'Min', factor: 6},
-  {name: 'Inf', factor: 7},
-  {name: 'Aur', factor: 6},
-  {name: 'Spi', factor: 6}
+  {name: 'Dex', type: 'Physical', factor: 7},
+  {name: 'Str', type: 'Physical', factor: 6},
+  {name: 'Bod', type: 'Physical', factor: 6},
+  {name: 'Int', type: 'Mental', factor: 7},
+  {name: 'Wil', type: 'Mental', factor: 6},
+  {name: 'Min', type: 'Mental', factor: 6},
+  {name: 'Inf', type: 'Spiritual', factor: 7},
+  {name: 'Aur', type: 'Spiritual', factor: 6},
+  {name: 'Spi', type: 'Spiritual', factor: 6}
   ],
   skills: [
   {name: 'Acrobatics', link: 'Dex', base: 15, factor: 7},
@@ -309,48 +309,43 @@ if (typeof params.maxskills == 'undefined') {
 config.push(maxskills);
 
 $(document).ready(function(){
-  $('#datafile').html(buildcharacter());
-});
-
-function buildcharacter() {
   var totalcost = 0;
-  var html = '';
+  var charsheet = $('#charsheet');
 
-  html += '<h3>Attributes</h3>';
-
-  html += '<table>';
+  charsheet.append('<h3>Attributes</h3>');
+  table = $('<table id="attrs">');
+	charsheet.append(table);
 
 	var myattrs = {};
   for (i = 0; i < data.attrs.length; i++) {
-    if (i == 0 || i == 3 || i == 6) {
-        html += '<tr>';
-    }
     var attr = data.attrs[i];
+    if (i == 0 || i == 3 || i == 6) {
+			var row = $('<tr id="' + attr.type + '">');
+			table.append(row);
+    }
+		console.log(row);
     var thisattraps = Math.ceil(Math.random() * maxattraps) + 1;
 		var thisattrname = attr.name;
 		myattrs[thisattrname] = thisattraps;
     var attrcost = data.costbyfactor[attr.factor][thisattraps - 1]
     var totalcost = totalcost + attrcost;
-    html += '<td>' + attr.name + ': ' + thisattraps + '</td>';
-    if (attr == 2 || attr == 5 || attr == 8) {
-        html += '</tr>';
-    }
+    row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
   }
-  html += '</table>';
 
-  html += '<h3>Powers</h3>';
-  html += '<ul>';
+  charsheet.append('<h3>Powers</h3>');
+  powerlist = $('<ul id="powers">');
+	charsheet.append(powerlist);
   
   var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
-  var powerlist = [];
-  while (powerlist.length < numpowers) {
+  var powerrolls = [];
+  while (powerrolls.length < numpowers) {
     powerroll = Math.ceil(Math.random() * data.powers.length);
-    powerlist.push(powerroll);
-    powerlist = dedupe(powerlist);
+    powerrolls.push(powerroll);
+    powerrolls = dedupe(powerrolls);
   }
 
-  for (i = 0; i < powerlist.length; i++) {
-		var power = jQuery.extend({}, data.powers[powerlist[i] - 1]);
+  for (i = 0; i < powerrolls.length; i++) {
+		var power = jQuery.extend({}, data.powers[powerrolls[i] - 1]);
 		var islinked = Math.ceil(Math.random() * 10)
 		if (islinked == 1) {
 			powerlink = power.link
@@ -365,26 +360,25 @@ function buildcharacter() {
 		};
     var powercost = power.base + data.costbyfactor[power.factor][aps - 1]
     var totalcost = totalcost + powercost;
-    html += '<li>' + power.name + ': ' + aps + '</li>';
+    powerlist.append('<li>' + power.name + ': ' + aps + '</li>');
     // debug cost
-    // html += '<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>';
+    // charsheet.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
   }
 
-  html += '</ul>';
-
-  html += '<h3>Skills</h3>';
-  html += '<ul>';
+  charsheet.append('<h3>Skills</h3>');
+  skillslist = $('<ul id="skills">');
+	charsheet.append(skillslist);
   
   var numskills = Math.ceil(Math.random() * maxskills) + 1;
-  var skilllist = [];
-  while (skilllist.length < numskills) {
+  var skillrolls = [];
+  while (skillrolls.length < numskills) {
     skillroll = Math.ceil(Math.random() * data.skills.length);
-    skilllist.push(skillroll);
-    skilllist = dedupe(skilllist);
+    skillrolls.push(skillroll);
+    skillrolls = dedupe(skillrolls);
   }
 
-  for (i = 0; i < skilllist.length; i++) {
-    var skill = jQuery.extend({}, data.skills[skilllist[i] - 1]);
+  for (i = 0; i < skillrolls.length; i++) {
+    var skill = jQuery.extend({}, data.skills[skillrolls[i] - 1]);
     var islinked = Math.ceil(Math.random() * 10)
 		if (islinked <= 3) {
 			skilllink = skill.link
@@ -399,17 +393,14 @@ function buildcharacter() {
 		};
     var skillcost = skill.base + data.costbyfactor[skill.factor][aps - 1]
     var totalcost = totalcost + skillcost;
-    html += '<li>' + skill.name + ': ' + aps + '</li>';
+    skillslist.append('<li>' + skill.name + ': ' + aps + '</li>');
     // debug cost
-    // html += '<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>';
+    // charsheet.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
   }
 
-  html += '</ul>';
+  charsheet.append('<p>Total Cost: ' + totalcost + '</p>');
 
-  html += '<p>Total Cost: ' + totalcost + '</p>';
-
-  return html;
-}
+});
 
 function dedupe(a) {
     var u = {};
