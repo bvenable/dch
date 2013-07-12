@@ -9,8 +9,8 @@ CSV.foreach("dcskills") do |line|
 	skill = Hash.new()
 	skill['name'] = line[0]
 	skill['link'] = line[1]
-	skill['base'] = line[2]
-	skill['factor'] = line[3]
+	skill['base'] = line[2].to_i
+	skill['factor'] = line[3].to_i
 	skills << skill
 end
 uri = URI.parse("http://sheltered-plateau-4479.herokuapp.com/api/skills/put")

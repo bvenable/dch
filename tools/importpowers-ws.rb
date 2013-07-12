@@ -9,8 +9,8 @@ CSV.foreach("dcpowers") do |line|
 	power = Hash.new()
 	power['name'] = line[0]
 	power['link'] = line[1]
-	power['base'] = line[2]
-	power['factor'] = line[3]
+	power['base'] = line[2].to_i
+	power['factor'] = line[3].to_i
 	powers << power
 end
 uri = URI.parse("http://sheltered-plateau-4479.herokuapp.com/api/powers/put")

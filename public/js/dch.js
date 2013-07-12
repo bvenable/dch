@@ -1,5 +1,5 @@
-// data
-data = {
+// dchdata
+dchdata = {
   costbyfactor: {
   1: [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100, 110, 120, 130, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1050, 1100],
   2: [1, 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 90, 100, 110, 120, 130, 140, 160, 180, 200, 220, 240, 260, 300, 350, 400, 450, 500, 550, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200],
@@ -25,23 +25,6 @@ data = {
   {name: 'Spi', type: 'Spiritual', factor: 6}
   ],
 };
-
-$.ajax({
-	url: "./api/powers/get",
-	type: "get",
-	success: function(powers){
-		data['powers'] = powers
-		console.log(data.powers.length)
-	}
-});
-
-$.ajax({
-	url: "./api/skills/get",
-	type: "get",
-	success: function(skills){
-		data['skills'] = skills
-	}
-});
 
 config = [];
 params = $.url().param();
@@ -106,6 +89,26 @@ if (typeof params.maxskills == 'undefined') {
 config.push(maxskills);
 
 $(document).ready(function(){
+
+
+	$.ajax({
+		url: "./api/powers/get",
+		type: "get",
+		async: false,
+		success: function(powers){
+			dchdata['powers'] = powers
+		}
+	});
+
+	$.ajax({
+		url: "./api/skills/get",
+		type: "get",
+		async: false,
+		success: function(skills){
+			dchdata['skills'] = skills
+		}
+	});
+
 	var totalcost = 0;
 	var charsheet = $('#charsheet');
 
@@ -114,8 +117,8 @@ $(document).ready(function(){
 	charsheet.append(table);
 
 	var myattrs = {};
-	for (i = 0; i < data.attrs.length; i++) {
-		var attr = data.attrs[i];
+	for (i = 0; i < dchdata.attrs.length; i++) {
+		var attr = dchdata.attrs[i];
 		if (i == 0 || i == 3 || i == 6) {
 			var row = $('<tr id="' + attr.type + '">');
 			table.append(row);
@@ -123,8 +126,10 @@ $(document).ready(function(){
 		var thisattraps = Math.ceil(Math.random() * maxattraps) + 1;
 		var thisattrname = attr.name;
 		myattrs[thisattrname] = thisattraps;
-		var attrcost = data.costbyfactor[attr.factor][thisattraps - 1]
+		var attrcost = dchdata.costbyfactor[attr.factor][thisattraps - 1]
+		//console.log(thisattrname + " " + thisattraps + " " + attrcost)
 		var totalcost = totalcost + attrcost;
+		//console.log(totalcost)
 		row.append('<td>' + attr.name + ': ' + thisattraps + '</td>');
   }
 
@@ -137,13 +142,13 @@ $(document).ready(function(){
 	var numpowers = Math.ceil(Math.random() * maxpowers) + 1;
 	var powerrolls = [];
 	while (powerrolls.length < numpowers) {
-		powerroll = Math.ceil(Math.random() * data.powers.length);
+		powerroll = Math.ceil(Math.random() * dchdata.powers.length);
 		powerrolls.push(powerroll);
 		powerrolls = dedupe(powerrolls);
 	}
 
 	for (i = 0; i < powerrolls.length; i++) {
-		var power = jQuery.extend({}, data.powers[powerrolls[i] - 1]);
+		var power = jQuery.extend({}, dchdata.powers[powerrolls[i] - 1]);
 		var islinked = Math.ceil(Math.random() * 10)
 		if (islinked == 1) {
 			powerlink = power.link
@@ -156,11 +161,13 @@ $(document).ready(function(){
 		} else {
 			var aps = Math.ceil(Math.random() * maxpoweraps) + 1;
 		};
-		var powercost = power.base + data.costbyfactor[power.factor][aps - 1]
+		var powercost = power.base + dchdata.costbyfactor[power.factor][aps - 1]
+		//console.log(power.name + "," + power.base + "," + power.factor + " @ " + aps + " APs = " + powercost);
 		var totalcost = totalcost + powercost;
+		//console.log("total: " + totalcost);
 		powerlist.append('<li>' + power.name + ': ' + aps + '</li>');
 		// debug cost
-		// powerlist.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
+		// powerlist.append('<li>' + power.name + ': ' + aps + ' (Cost: base ' + power.base + ' + (factor ' + power.factor + ' at ' + aps + ' APs = ' + dchdata.costbyfactor[power.factor][aps - 1] + ') = ' + powercost + ')</li>');
 	}
 
 	skillsection = $('<div id="skills">');
@@ -172,13 +179,13 @@ $(document).ready(function(){
 	var numskills = Math.ceil(Math.random() * maxskills) + 1;
 	var skillrolls = [];
 	while (skillrolls.length < numskills) {
-		skillroll = Math.ceil(Math.random() * data.skills.length);
+		skillroll = Math.ceil(Math.random() * dchdata.skills.length);
 		skillrolls.push(skillroll);
 		skillrolls = dedupe(skillrolls);
 	}
 
 	for (i = 0; i < skillrolls.length; i++) {
-		var skill = jQuery.extend({}, data.skills[skillrolls[i] - 1]);
+		var skill = jQuery.extend({}, dchdata.skills[skillrolls[i] - 1]);
 		var islinked = Math.ceil(Math.random() * 10)
 		if (islinked <= 3) {
 			skilllink = skill.link
@@ -191,11 +198,11 @@ $(document).ready(function(){
 		} else {
 			var aps = Math.ceil(Math.random() * maxskillaps) + 1;
 		};
-		var skillcost = skill.base + data.costbyfactor[skill.factor][aps - 1]
+		var skillcost = skill.base + dchdata.costbyfactor[skill.factor][aps - 1]
 		var totalcost = totalcost + skillcost;
 		skillslist.append('<li>' + skill.name + ': ' + aps + '</li>');
 		// debug cost
-		// skillslist.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + data.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
+		// skillslist.append('<li>' + skill.name + ': ' + aps + ' (Cost: base ' + skill.base + ' + (factor ' + skill.factor + ' at ' + aps + ' APs = ' + dchdata.costbyfactor[skill.factor][aps - 1] + ') = ' + skillcost + ')</li>');
 	}
 
 	costsection = $('<div id="costs">');
