@@ -30,6 +30,8 @@ $.ajax({
 	url: "./api/powers/get",
 	type: "get",
 	success: function(powers){
+		console.log(powers)
+		console.log(data)
 		data['powers'] = powers
 	}
 });
@@ -119,7 +121,6 @@ $(document).ready(function(){
 			var row = $('<tr id="' + attr.type + '">');
 			table.append(row);
 		}
-		console.log(row);
 		var thisattraps = Math.ceil(Math.random() * maxattraps) + 1;
 		var thisattrname = attr.name;
 		myattrs[thisattrname] = thisattraps;
