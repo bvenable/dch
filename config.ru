@@ -1,2 +1,2 @@
-require './hello'
+require './dchservice'
 run Sinatra::Application
