@@ -59,12 +59,15 @@ get('/api/skills/get') {
 }
 
 post('/api/skills/put') {
+	results = Array.new()
 	content_type :json
 	data = JSON.parse(request.body.read)
+	puts data.inspect
 	data.each {|record|
 		new_id = skills.insert(record)
-		skills.find_one(:_id => new_id).to_json
+		results << skills.find_one(:_id => new_id)
 	}
+	json(results)
 }
 
 get('/api/skills/clear') {
