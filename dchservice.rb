@@ -27,6 +27,10 @@ not_found{
   json(nil)
 }
 
+get('/') {
+	  call(env.merge('PATH_INFO'=>'/index.html'))
+}
+
 get('/api/powers/get') {
 	selector=Hash.new()
 	params.each_pair {|param, value|
