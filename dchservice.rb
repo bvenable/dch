@@ -37,8 +37,8 @@ get('/api/powers/get') {
 
 post('/api/powers/put') {
 	content_type :json
-	new_id = powers.insert params
-	document_by_id(new_id).to_json
+	new_id = powers.insert(params)
+	powers.find_one(:_id => new_id).to_json
 }
 
 #get('/api/search') {
