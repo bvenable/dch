@@ -60,8 +60,11 @@ get('/api/skills/get') {
 
 post('/api/skills/put') {
 	content_type :json
-	new_id = skills.insert(params)
-	skills.find_one(:_id => new_id).to_json
+	data = JSON.parse(request.body.read)
+	data.each {|record|
+		new_id = skills.insert(record)
+		skills.find_one(:_id => new_id).to_json
+	}
 }
 
 get('/api/skills/clear') {
