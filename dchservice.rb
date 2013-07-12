@@ -17,12 +17,9 @@ end
 
 
 db = get_connection
-puts db.inspect
 dch = db['dch']
-puts dch.inspect
 powers = dch['powers']
-puts powers.inspect
-powers.find();
+skills = dch['skills']
 
 set(:json_encoder,:to_json)
 
@@ -31,7 +28,12 @@ not_found{
 }
 
 get('/api/powers/get') {
-	results = powers.find.to_a
+	selector=Hash.new()
+	params.each_pair {|param, value|
+		newselect = {"#{param}"=>Regexp.new("#{value}", "i")}
+		selector = selector.merge(newselect)
+	}
+	results = powers.find(selector).sort(:name).to_a
 	json(results)
 }
 
@@ -46,12 +48,24 @@ get('/api/powers/clear') {
 	json(results)
 }
 
+get('/api/skills/get') {
+	selector=Hash.new()
+	params.each_pair {|param, value|
+		newselect = {"#{param}"=>Regexp.new("#{value}", "i")}
+		selector = selector.merge(newselect)
+	}
+	results = skills.find(selector).sort(:name).to_a
+	json(results)
+}
 
-#get('/api/search') {
-#	selector=Hash.new()
-#	params.each_pair {|param, value|
-#		newselect = {"#{param}"=>Regexp.new("#{value}", "i")}
-#		selector = selector.merge(newselect)
-#	}
-#}
+post('/api/skills/put') {
+	content_type :json
+	new_id = skills.insert(params)
+	skills.find_one(:_id => new_id).to_json
+}
+
+get('/api/skills/clear') {
+	results = skills.remove
+	json(results)
+}
 
