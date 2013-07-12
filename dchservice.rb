@@ -32,7 +32,9 @@ not_found{
 
 get('/api/powers/get') {
 	results = powers.find();
-	json(results)
+	results.each { |result|
+		json(result);
+	}
 }
 
 post('/api/powers/put') {
