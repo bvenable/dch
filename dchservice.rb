@@ -49,10 +49,10 @@ post('/api/powers/put') {
 	json(results)
 }
 
-get('/api/powers/clear') {
-	results = powers.remove
-	json(results)
-}
+#get('/api/powers/clear') {
+#	results = powers.remove
+#	json(results)
+#}
 
 get('/api/skills/get') {
 	selector=Hash.new()
@@ -76,8 +76,8 @@ post('/api/skills/put') {
 	json(results)
 }
 
-get('/api/skills/clear') {
-	results = skills.remove
-	json(results)
-}
+#get('/api/skills/clear') {
+#	results = skills.remove
+#	json(results)
+#}
 
