@@ -18,9 +18,11 @@ end
 
 db = get_connection
 puts db.inspect
-db.database_names.each
 dch = db['dch']
+puts dch.inspect
 powers = dch['powers']
+puts powers.inspect
+powers.find();
 
 set(:json_encoder,:to_json)
 
