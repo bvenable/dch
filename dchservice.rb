@@ -15,8 +15,12 @@ def get_connection
   @db_connection
 end
 
+
 db = get_connection
-powers = db['powers']
+puts db.inspect
+db.database_names.each
+dch = db['dch']
+powers = dch['powers']
 
 set(:json_encoder,:to_json)
 
