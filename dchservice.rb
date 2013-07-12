@@ -41,6 +41,12 @@ post('/api/powers/put') {
 	powers.find_one(:_id => new_id).to_json
 }
 
+post ('/api/powers/clear') {
+	results = powers.remove.to_a
+	json(results)
+}
+
+
 #get('/api/search') {
 #	selector=Hash.new()
 #	params.each_pair {|param, value|
