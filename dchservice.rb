@@ -41,8 +41,8 @@ post('/api/powers/put') {
 	powers.find_one(:_id => new_id).to_json
 }
 
-post ('/api/powers/clear') {
-	results = powers.remove.to_a
+get('/api/powers/clear') {
+	results = powers.remove
 	json(results)
 }
 
