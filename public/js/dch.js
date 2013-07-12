@@ -30,9 +30,8 @@ $.ajax({
 	url: "./api/powers/get",
 	type: "get",
 	success: function(powers){
-		console.log(powers)
-		console.log(data)
 		data['powers'] = powers
+		console.log(data.powers.length)
 	}
 });
 
