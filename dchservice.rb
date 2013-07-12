@@ -38,9 +38,15 @@ get('/api/powers/get') {
 }
 
 post('/api/powers/put') {
+	results = Array.new()
 	content_type :json
-	new_id = powers.insert(params)
-	powers.find_one(:_id => new_id).to_json
+	data = JSON.parse(request.body.read)
+	puts data.inspect
+	data.each {|record|
+		new_id = powers.insert(record)
+		results << powers.find_one(:_id => new_id)
+	}
+	json(results)
 }
 
 get('/api/powers/clear') {
