@@ -42,7 +42,6 @@ $.ajax({
 	}
 });
 
-c
 config = [];
 params = $.url().param();
 if (typeof params.maxattraps == 'undefined') {
