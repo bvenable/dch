@@ -1,0 +1,3 @@
+#!/bin/sh
+export MONGOHQ_URL='mongodb://localhost:27017/dch'
+./dchservice.rb 2>&1 > dchservice.log
