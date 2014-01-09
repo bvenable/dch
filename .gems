@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+'json'
+'sinatra'
+'sinatra-contrib'
+'mongo'
